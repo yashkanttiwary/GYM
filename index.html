@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mindful Movement - Training Handbook</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
+    *,*::before,*::after{box-sizing:border-box}
+    *{margin:0}
+    html,body{height:100%}
+    img,svg{display:block;max-width:100%}
+    button,a{cursor:pointer}
+
+    :root{
+      --bg-1:#FFFCF6; --bg-2:#FFF7E9; --bg-3:#FFF2D9; --card:#FFFFFF;
+      --ink-900:#141414; --ink-800:#1D1D1D; --ink-700:#2B2B2B; --ink-500:#5A5A5A;
+      --line-300:#F0E6CF; --line-400:#E8D8B8; --line-500:#DFCFA8;
+      --pill-hover-border:#121212;
+      --shadow-amber:0 8px 24px rgba(214,165,68,.14);
+      --shadow-soft:0 10px 30px rgba(0,0,0,.06);
+      --shadow-strong:0 20px 40px rgba(0,0,0,.12);
+      --glass-tint: rgba(255,255,255,.55);
+      --glass-stroke: rgba(255,255,255,.28);
+      --bg-image-veil: rgba(255,255,255,.35);
+
+      --r-md:18px; --r-lg:22px; --r-xl:26px;
+      --space-2:.5rem; --space-3:.75rem; --space-4:1rem; --space-5:1.25rem;
+      --space-6:1.5rem; --space-8:2rem; --space-10:2.5rem; --space-14:3.5rem;
+      --w-max:1120px;
+    }
+    .theme-dark{
+      --bg-1:#0D0D0D; --bg-2:#121212; --bg-3:#181818; --card:#121212;
+      --ink-900:#F5F5F5; --ink-800:#EDEDED; --ink-700:#E0E0E0; --ink-500:#B6B6B6;
+      --line-300:#2C2C2C; --line-400:#3A3A3A; --line-500:#474747;
+      --pill-hover-border:#F0F0F0;
+      --shadow-amber:0 8px 24px rgba(0,0,0,.25);
+      --shadow-soft:0 10px 30px rgba(0,0,0,.45);
+      --shadow-strong:0 20px 40px rgba(0,0,0,.6);
+      --glass-tint: rgba(18,18,18,.55);
+      --glass-stroke: rgba(255,255,255,.12);
+      --bg-image-veil: rgba(0,0,0,.45);
+    }
+
+    body{
+      overflow-x:hidden;
+      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+      color:var(--ink-700);
+      background:
+        radial-gradient(1200px 600px at 70% 20%, var(--bg-2) 0%, rgba(255,247,233,0) 60%),
+        radial-gradient(900px 500px at 20% 10%, var(--bg-3) 0%, rgba(255,242,217,0) 55%),
+        var(--bg-1);
+      line-height:1.6;
+      transition: background .4s ease, color .3s ease;
+    }
+    body.bg-liquid{
+      background:
+        radial-gradient(1000px 600px at 20% 10%, rgba(247,229,193,.55) 0%, rgba(247,229,193,0) 55%),
+        radial-gradient(900px 540px at 80% 15%, rgba(255,180,120,.35) 0%, rgba(255,180,120,0) 60%),
+        radial-gradient(600px 420px at 40% 60%, rgba(146,182,255,.30) 0%, rgba(146,182,255,0) 65%),
+        linear-gradient(135deg, var(--bg-2), var(--bg-1));
+      background-attachment:fixed;
+    }
+    body.bg-image{
+      background:
+        linear-gradient(0deg, var(--bg-image-veil), var(--bg-image-veil)),
+        var(--custom-bg-url, none);
+      background-size:cover;
+      background-position:center;
+      background-attachment:fixed;
+    }
+
+    .container{max-width:var(--w-max);margin:0 auto;padding:0 var(--space-6)}
+
+    .toolbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(8px);
+      background: color-mix(in oklab, var(--bg-1) 70%, transparent);
+      border-bottom:1px solid var(--line-300);
+    }
+    .toolbar-inner{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.55rem .9rem; max-width:var(--w-max); margin:0 auto}
+    .logo-text{font-family:'Playfair Display',serif; font-weight:500; letter-spacing:-.01em; color:var(--ink-800); font-size:1.05rem}
+
+    .control-btn{
+      display:inline-flex; align-items:center; gap:.5rem;
+      background:var(--card);
+      border:1px solid var(--line-300);
+      padding:.5rem .75rem;
+      border-radius:999px;
+      color:var(--ink-700);
+      box-shadow:var(--shadow-soft);
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      font-weight:600;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .control-btn:hover{transform:translateY(-1px); box-shadow:var(--shadow-strong); border-color:var(--line-400)}
+    .control-btn svg{width:18px;height:18px}
+
+    .panel{
+      position:absolute; right:1rem; top:3.2rem;
+      background:var(--card); border:1px solid var(--line-300); border-radius:14px; padding:.6rem; box-shadow:var(--shadow-strong);
+      display:none; min-width:220px;
+    }
+    .panel.open{display:block}
+    .panel .row{display:flex; gap:.5rem; align-items:center; margin:.35rem 0; flex-wrap:wrap}
+    .chip{display:inline-flex; align-items:center; gap:.4rem; padding:.45rem .7rem; border-radius:999px; background:#fffefb; border:1px solid var(--line-300); color:var(--ink-700); font-weight:600; font-size:.9rem}
+    .theme-dark .chip{background:#141414}
+
+    .hero{min-height:64vh; display:flex; align-items:center; justify-content:center; padding:clamp(2.25rem,6vw,6rem) 0 var(--space-14); text-align:center}
+    .hero h1{font-family:'Playfair Display',serif; font-weight:500; font-size:clamp(2.4rem,7vw,3.9rem); color:var(--ink-900); letter-spacing:-.02em; text-shadow:0 20px 45px rgba(0,0,0,.08); margin-bottom:var(--space-4)}
+    .hero p{font-size:clamp(1rem,2.2vw,1.2rem); color:var(--ink-500); margin-bottom:clamp(1.2rem,3vw,2rem); font-weight:400}
+    .bg-image .glass-area, .bg-liquid .glass-area{background: color-mix(in oklab, var(--glass-tint) 85%, transparent); border:1px solid var(--glass-stroke); backdrop-filter: blur(10px) saturate(120%); border-radius:26px; padding:1rem 1rem 2rem; box-shadow:var(--shadow-strong)}
+
+    .days-grid{display:grid; grid-template-columns:repeat(2, minmax(260px, 1fr)); gap:var(--space-6); max-width:980px; margin-inline:auto}
+    @media (max-width:720px){ .days-grid{grid-template-columns:1fr} }
+
+    .day-pill{
+      display:flex; align-items:center; justify-content:flex-start;
+      padding:clamp(1rem,2.4vw,1.35rem) clamp(1rem,2.8vw,1.5rem);
+      background:var(--card); border:2px solid var(--line-300); border-radius:999px;
+      box-shadow:var(--shadow-soft), var(--shadow-amber);
+      text-decoration:none; color:var(--ink-700); font-weight:700;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease, color .25s ease;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .day-pill:hover,.day-pill:focus-visible{border-color:var(--pill-hover-border); box-shadow:0 12px 34px rgba(0,0,0,.14); outline:none}
+
+    section{padding:var(--space-14) 0}
+    .section-title{font-family:'Playfair Display',serif; font-weight:500; font-size:clamp(1.6rem,4.2vw,2.3rem); color:var(--ink-900); text-align:center; margin-bottom:var(--space-6)}
+    .section-sub{text-align:center; color:var(--ink-500); margin-bottom:var(--space-10); font-size:1.02rem}
+
+    .card{background:var(--card); border:1px solid var(--line-300); border-radius:var(--r-xl); padding:var(--space-10); box-shadow:var(--shadow-soft); transition: box-shadow .25s ease, transform .25s ease}
+    .card:hover{box-shadow:var(--shadow-strong); transform:translateY(-3px)}
+
+    .workout-section{margin-bottom:var(--space-10); overflow:hidden; border:1px solid var(--line-300); border-radius:var(--r-xl); box-shadow:var(--shadow-soft)}
+    .workout-header{border-radius:var(--r-xl) var(--r-xl) 0 0; box-shadow: inset 0 -1px 0 0 var(--line-300); background:linear-gradient(180deg,#181818,#0f0f0f); color:#fff; padding:var(--space-8); text-align:center}
+    .theme-dark .workout-header{background:linear-gradient(180deg,#0f0f0f,#000)}
+    .workout-title{font-family:'Playfair Display',serif; font-weight:500; font-size:1.3rem; margin-bottom:.3rem}
+    .workout-focus{opacity:.9; font-weight:300}
+    .workout-content{padding:var(--space-10); background:var(--card); border:0; border-radius:0 0 var(--r-xl) var(--r-xl)}
+
+    /* === NEW EXERCISE GRID === */
+    /* Redesigned exercise grid to allow independent vertical expansion */
+    .exercise-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+      gap:16px;
+    }
+    /* Each card has three rows: header, media, and body */
+    .exercise-card{
+      position:relative;
+      display:grid;
+      /* Previously allocated three grid rows: header, media, and body. Now the exercise illustration appears within the details body,
+         so only two rows are needed: a header and the rest of the content. */
+      grid-template-rows:auto 1fr;
+      align-items:start;
+      background:linear-gradient(180deg,#fffefb, #ffffff);
+      border:1px solid var(--line-300);
+      border-radius:20px;
+      padding:1rem;
+      box-shadow:var(--shadow-soft);
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .theme-dark .exercise-card{background:linear-gradient(180deg,#151515,#121212)}
+    .exercise-card:hover{transform:translateY(-2px); box-shadow:var(--shadow-strong); border-color:var(--line-400)}
+
+    /* Media container enforces a square aspect ratio and hides overflow */
+    .exercise-media{
+      aspect-ratio:1 / 1;
+      overflow:hidden;
+      border-radius:12px;
+    }
+    .exercise-media img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+    }
+
+    /* When the exercise illustration is moved into the collapsible details body,
+       give it some breathing room below. */
+    .ex-body .exercise-media{
+      margin-bottom:1rem;
+    }
+
+    .ex-head{display:flex; align-items:center; gap:.75rem}
+    .ex-icon{
+      width:34px; height:34px; border-radius:10px;
+      background: color-mix(in oklab, var(--bg-3) 70%, transparent);
+      display:grid; place-items:center; border:1px solid var(--line-300);
+    }
+    .ex-title{font-weight:800; color:var(--ink-900); line-height:1.25}
+    .ex-meta{font-size:.9rem; color:var(--ink-500); font-weight:600}
+
+    .ex-cues{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.2rem}
+    .ex-chip{font-size:.78rem; font-weight:700; padding:.2rem .5rem; border:1px solid var(--line-300); border-radius:999px; background:#fff; color:var(--ink-700)}
+    .theme-dark .ex-chip{background:#141414}
+
+    .ex-actions{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.2rem}
+    .ex-actions summary{list-style:none}
+    .ex-actions summary::-webkit-details-marker{display:none}
+    .ex-btn{
+      display:inline-flex; align-items:center; gap:.35rem;
+      padding:.45rem .6rem; border-radius:999px; border:1px solid var(--line-300);
+      background:#fff; color:var(--ink-700); font-weight:700; font-size:.85rem;
+    }
+    .theme-dark .ex-btn{background:#141414}
+    details.ex-details{width:100%}
+    details.ex-details[open] .ex-btn{border-color:var(--pill-hover-border)}
+
+    .ex-body{margin-top:.4rem; padding:.7rem .2rem .2rem}
+    .ex-body h5{font-size:.92rem; margin:.35rem 0 .25rem; color:var(--ink-900)}
+    .ex-body ol{padding-left:1.05rem}
+    .ex-body li{margin:.18rem 0}
+    .ex-body .muted{color:var(--ink-500); font-size:.9rem}
+
+    /* Mobile tuning */
+    @media (max-width:560px){
+      .toolbar-inner{padding:.5rem .7rem}
+      .control-btn{padding:.45rem .65rem}
+      .hero{padding:2rem 0 2.2rem}
+      .hero h1{font-size:clamp(2rem,8vw,2.6rem)}
+      .days-grid{gap:.9rem}
+      .day-pill{padding:.85rem 1.1rem; font-weight:700; box-shadow:0 6px 16px rgba(0,0,0,.06)}
+      .workout-content{padding:1rem}
+      .exercise-card{padding:.85rem}
+      .card{padding:1.1rem}
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion:reduce){
+      *{transition:none !important}
+    }
+
+    /* Mobile optimisation: on small screens the top toolbar compresses and icons shrink to preserve space */
+    @media (max-width: 600px){
+      .toolbar-inner{
+        padding: .4rem .6rem;
+      }
+      .logo-text{
+        font-size:.95rem;
+      }
+      .control-btn{
+        padding:.35rem .55rem;
+        font-size:.85rem;
+      }
+      .control-btn svg{
+        width:16px;
+        height:16px;
+      }
+      #themeLabel{
+        font-size:.9rem;
+      }
+    }
+
+    html{scroll-behavior:smooth}
+  </style>
+</head>
+<body>
+<!-- Sticky toolbar -->
+<div class="toolbar">
+<div class="toolbar-inner">
+<div class="left">
+<span class="logo-text">Mindful Movement</span>
+</div>
+<div class="right" style="position:relative">
+<button class="control-btn" id="themeToggle" title="Toggle theme">
+<svg fill="currentColor" id="iconSun" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zm10.48 0l1.79-1.8 1.41 1.41-1.8 1.79-1.4-1.4zM12 4V1h-0v3h0zM4 12H1v0h3v0zm19 0h-3v0h3v0zM6.76 19.16l-1.42 1.42-1.79-1.8 1.41-1.41 1.8 1.79zM20.45 18.78l-1.41 1.41-1.79-1.8 1.41-1.41 1.79 1.8zM12 23v-3h0v3h0zM12 7a5 5 0 100 10 5 5 0 000-10z"></path></svg>
+<!-- Updated moon icon path to avoid a chipped appearance in dark theme -->
+<svg fill="currentColor" id="iconMoon" style="display:none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<!-- This crescent‑moon path is sourced from the open source Heroicons library and renders a smooth silhouette -->
+<path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"></path>
+</svg>
+<span id="themeLabel">Light</span>
+</button>
+<button class="control-btn" id="bgBtn" style="margin-left:.5rem" title="Background options">
+<svg fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8 6 4 9.58 4 13a8 8 0 0016 0c0-3.42-4-7-8-11zm0 3.4c2.88 3.13 6 5.98 6 7.6a6 6 0 11-12 0c0-1.62 3.12-4.47 6-7.6z"></path></svg>
+          Background
+        </button>
+<div class="panel" id="bgPanel">
+<div class="row">
+<label class="chip"><input checked="" name="bgmode" type="radio" value="ivory"/> Ivory</label>
+<label class="chip"><input name="bgmode" type="radio" value="liquid"/> Liquid Glass</label>
+<label class="chip"><input name="bgmode" type="radio" value="image"/> Custom Image</label>
+</div>
+<div class="row" id="imageRow" style="display:none">
+<input accept="image/*" id="bgFile" type="file"/>
+</div>
+<div class="row" style="font-size:.9rem;color:var(--ink-500)">
+            Tip: Custom images get a soft, theme-aware veil for readability.
+          </div>
+</div>
+</div>
+</div>
+</div>
+<!-- HERO -->
+<header class="hero">
+<div class="container glass-area">
+<h1>Mindful Movement</h1>
+<p>A gentle approach to strength and wellness</p>
+<div class="days-grid">
+<a class="day-pill" href="#monday">Monday - Grounding Legs</a>
+<a class="day-pill" href="#tuesday">Tuesday - Upper Strength</a>
+<a class="day-pill" href="#wednesday">Wednesday - Flow</a>
+<a class="day-pill" href="#thursday">Thursday - Upper Balance</a>
+<a class="day-pill" href="#friday">Friday - Fluid Legs</a>
+<a class="day-pill" href="#saturday">Saturday - Back Care</a>
+</div>
+</div>
+</header>
+<section id="session-flow">
+<div class="container">
+<h2 class="section-title">Session Flow</h2>
+<p class="section-sub">Every workout begins with intention and ends with gratitude</p>
+<div class="days-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+<div class="card"><strong>Mindful Warm-up (8–10 min)</strong><br/>3–5 min gentle movement → joint circles with awareness → 2 mindful ramp-up sets</div>
+<div class="card"><strong>Conscious Effort: RIR 1–2</strong><br/>Stop 1–2 reps before failure. End a set when movement quality changes</div>
+<div class="card"><strong>Restorative Rest</strong><br/>Heavy 2–3 min • accessories 60–90s • pump 45–60s • core 30–60s with breath</div>
+<div class="card"><strong>Peaceful Finish</strong><br/>2–5 min mindful breathing. Hydrate mindfully: 300–500 ml pre-session; 3–4 L daily</div>
+</div>
+</div>
+</section>
+<!-- WEEKLY PRACTICE with redesigned exercise cards -->
+<section id="week-plan">
+<div class="container">
+<h2 class="section-title">Weekly Practice</h2>
+<p class="section-sub">Tap an exercise to see How‑to, Cues, and Modifications</p>
+<!-- MONDAY -->
+<div class="workout-section" id="monday">
+<div class="workout-header">
+<h3 class="workout-title">Monday — Grounding: Squat Foundation</h3>
+<p class="workout-focus">Quads • Glutes • Calves</p>
+</div>
+<div class="workout-content">
+<div class="exercise-grid">
+<section class="exercise-card" data-id="back-squat">
+<div class="ex-head">
+<div aria-hidden="true" class="ex-icon">🏋️</div>
+<div>
+</div>
+</div><h3>Back Squat</h3>
+<div class="ex-cues">
+<span class="ex-chip">Tripod foot</span>
+<span class="ex-chip">Brace &amp; breathe</span>
+<span class="ex-chip">Depth you own</span>
+</div>
+<div class="ex-actions">
+<details class="ex-details">
+<summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Back Squat exercise illustration" height="640" loading="lazy" src="exercise_images/back-squat.png" width="640"/></figure>
+<h5>Steps</h5>
+<ol>
+<li>Set the bar just below shoulder height; grip slightly wider than shoulders.</li>
+<li>Unrack, take two small steps back; feet shoulder‑width, toes slightly out.</li>
+<li>Big inhale into belly &amp; ribs, brace; sit between hips while keeping chest tall.</li>
+<li>Descend under control; keep knees tracking over toes.</li>
+<li>Drive up through mid‑foot; exhale near the top without losing brace.</li>
+</ol>
+<h5>Common mistakes</h5>
+<p class="muted">Heels lifting, knees collapsing in, losing brace at the bottom, rushing the descent.</p>
+<h5>Modifications</h5>
+<p class="muted">Use a box to control depth; elevated heels or safety bar for mobility; goblet squat for beginners.</p>
+</div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="leg-press">
+<div class="ex-head">
+<div class="ex-icon">🦵</div>
+<div>
+</div>
+</div><h3>Leg Press</h3>
+<div class="ex-cues">
+<span class="ex-chip">Mid‑platform feet</span>
+<span class="ex-chip">2–3s lower</span>
+<span class="ex-chip">Full lock? soft</span>
+</div>
+<div class="ex-actions">
+<details class="ex-details">
+<summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Leg Press exercise illustration" height="640" loading="lazy" src="exercise_images/leg-press.png" width="640"/></figure>
+<h5>Steps</h5>
+<ol>
+<li>Set seat so hips stay down and low back stays neutral.</li>
+<li>Place feet roughly shoulder‑width on mid‑platform.</li>
+<li>Unlock, lower slowly until thighs reach ~90° without hips rounding.</li>
+<li>Press evenly through whole foot; stop short of knee slam.</li>
+</ol>
+<h5>Common mistakes</h5>
+<p class="muted">Hips lifting off pad, bouncing at bottom, pushing through toes only.</p>
+<h5>Modifications</h5>
+<p class="muted">Lower platform for more quad; higher for more glute/ham; single‑leg for balance.</p>
+</div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="bulgarian-split-squat">
+<div class="ex-head">
+<div class="ex-icon">🪑</div>
+<div>
+</div>
+</div><h3>Bulgarian Split Squat</h3>
+<div class="ex-cues">
+<span class="ex-chip">Tall posture</span>
+<span class="ex-chip">Front foot loaded</span>
+<span class="ex-chip">Control</span>
+</div>
+<div class="ex-actions">
+<details class="ex-details">
+<summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Bulgarian Split Squat exercise illustration" height="640" loading="lazy" src="exercise_images/bulgarian-split-squat.png" width="640"/></figure>
+<h5>Steps</h5>
+<ol>
+<li>Rear foot on bench, laces down; front foot far enough to keep shin vertical.</li>
+<li>Drop straight down; light touch with rear knee.</li>
+<li>Drive through front mid‑foot; keep hips square.</li>
+</ol>
+<h5>Common mistakes</h5>
+<p class="muted">Leaning forward excessively, bouncing off the knee, front heel lifting.</p>
+<h5>Modifications</h5>
+<p class="muted">Use a split‑squat (rear foot on floor) or hold onto a post for balance.</p>
+</div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="seated-calf-raise">
+<div class="ex-head">
+<div class="ex-icon">🐾</div>
+<div>
+</div>
+</div><h3>Seated Calf Raise</h3>
+<div class="ex-cues">
+<span class="ex-chip">Full range</span>
+<span class="ex-chip">1s squeeze</span>
+<span class="ex-chip">Smooth tempo</span>
+</div>
+<div class="ex-actions">
+<details class="ex-details">
+<summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Seated Calf Raise exercise illustration" height="640" loading="lazy" src="exercise_images/seated-calf-raise.png" width="640"/></figure>
+<h5>Steps</h5>
+<ol>
+<li>Balls of feet on platform; knees under pad.</li>
+<li>Lower slowly to full stretch without dropping heels below safe range.</li>
+<li>Press up, squeezing calves for 1s at top.</li>
+</ol>
+<h5>Common mistakes</h5>
+<p class="muted">Bouncing through the stretch, tiny ranges, toes turning out excessively.</p>
+<h5>Modifications</h5>
+<p class="muted">Single‑leg for balance; standing calf raise if no machine.</p>
+</div>
+</details>
+</div>
+</section>
+</div>
+<div class="card" style="margin-top:1rem">
+<strong>Core Meditation (5–8 min):</strong> Front Plank 2×30–45s + Dead Bug 2×6–8/side  •  <em>3 min mindful walking</em>
+</div>
+</div>
+</div>
+<!-- TUESDAY -->
+<div class="workout-section" id="tuesday">
+<div class="workout-header">
+<h3 class="workout-title">Tuesday — Upper Strength: Pull‑First Wisdom</h3>
+<p class="workout-focus">Lats • Chest • Mid‑back • Triceps</p>
+</div>
+<div class="workout-content">
+<div class="exercise-grid">
+<section class="exercise-card" data-id="pull-ups-assisted">
+<div class="ex-head"><div class="ex-icon">🧗</div><div></div></div><h3>Pull‑ups / Assisted</h3>
+<div class="ex-cues"><span class="ex-chip">Chest up</span><span class="ex-chip">Elbows to ribs</span><span class="ex-chip">Full hang</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Pull‑ups / Assisted exercise illustration" height="640" loading="lazy" src="exercise_images/pull-ups-assisted.png" width="640"/></figure>
+<h5>Steps</h5>
+<ol><li>Grip shoulder‑width; set shoulders “down &amp; back”.</li><li>Pull by driving elbows to ribs; chin clears bar.</li><li>Lower under control to full stretch without shrugging.</li></ol>
+<h5>Modifications</h5>
+<p class="muted">Assisted machine/band; neutral‑grip handles; Lat pulldown if needed.</p>
+</div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="bench-press">
+<div class="ex-head"><div class="ex-icon">🏋️‍♂️</div><div></div></div><h3>Bench Press</h3>
+<div class="ex-cues"><span class="ex-chip">Scapula set</span><span class="ex-chip">Elbows ~45°</span><span class="ex-chip">Firm press</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Bench Press exercise illustration" height="640" loading="lazy" src="exercise_images/bench-press.png" width="640"/></figure>
+<ol><li>Feet planted; shoulder blades pinched &amp; down.</li><li>Lower to lower‑chest with forearms vertical.</li><li>Drive bar up &amp; slightly back, keep butt on bench.</li></ol>
+<h5>Mistakes</h5><p class="muted">Loose upper back, wrists bent, bouncing on chest.</p>
+</div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="chest-supported-row">
+<div class="ex-head"><div class="ex-icon">📦</div><div></div></div><h3>Chest‑Supported Row</h3>
+<div class="ex-cues"><span class="ex-chip">No body English</span><span class="ex-chip">Elbows 30–45°</span><span class="ex-chip">Squeeze</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Chest‑Supported Row exercise illustration" height="640" loading="lazy" src="exercise_images/chest-supported-row.png" width="640"/></figure>
+<ol><li>Chest on pad; neutral neck.</li><li>Row to lower ribs; pause; slow return with lats engaged.</li></ol>
+<p class="muted">Swap to single‑arm DB row if no machine.</p>
+</div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="incline-db-press">
+<div class="ex-head"><div class="ex-icon">🧱</div><div></div></div><h3>Incline DB Press</h3>
+<div class="ex-cues"><span class="ex-chip">Control</span><span class="ex-chip">Elbows tuck</span><span class="ex-chip">Arc path</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Incline DB Press exercise illustration" height="640" loading="lazy" src="exercise_images/incline-db-press.png" width="640"/></figure>
+<ol><li>Set slight incline; dumbbells over mid‑chest.</li><li>Lower with forearms vertical; avoid flaring.</li><li>Press up in gentle arc; meet dumbbells without clashing.</li></ol>
+</div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="face-pulls">
+<div class="ex-head"><div class="ex-icon">🎯</div><div></div></div><h3>Face Pulls</h3>
+<div class="ex-cues"><span class="ex-chip">External rotate</span><span class="ex-chip">Elbows high</span><span class="ex-chip">Scap control</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Face Pulls exercise illustration" height="640" loading="lazy" src="exercise_images/face-pulls.png" width="640"/></figure>
+<ol><li>Set cable at forehead height.</li><li>Pull rope to eyes, rotate thumbs back.</li><li>Pause; slow return resisting protraction.</li></ol>
+</div>
+</details>
+</div>
+</section>
+</div>
+<div class="card" style="margin-top:1rem"><strong>Core Balance:</strong> Pallof Press 2×10/side  •  <em>Extra pull‑ups or slow tempo incline press</em></div>
+</div>
+</div>
+<!-- WEDNESDAY -->
+<div class="workout-section" id="wednesday">
+<div class="workout-header">
+<h3 class="workout-title">Wednesday — Flow: Cardio + Mobility</h3>
+<p class="workout-focus">Cardio Health • Spine/Hip Mobility</p>
+</div>
+<div class="workout-content">
+<div class="exercise-grid">
+<section class="exercise-card" data-id="walk-easy-cycle">
+<div class="ex-head"><div class="ex-icon">🚶</div><div></div></div><h3>Walk / Easy Cycle</h3>
+<div class="ex-cues"><span class="ex-chip">Nasal breathe</span><span class="ex-chip">Tall posture</span><span class="ex-chip">Relaxed</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">Suggestions</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Walk / Easy Cycle exercise illustration" height="640" loading="lazy" src="exercise_images/walk-easy-cycle.png" width="640"/></figure><p class="muted">Keep a pace where you can talk in short sentences. Aim for even steps and relaxed shoulders.</p></div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="strides-jump-rope">
+<div class="ex-head"><div class="ex-icon">🪢</div><div></div></div><h3>Strides / Jump Rope</h3>
+<div class="ex-cues"><span class="ex-chip">Soft land</span><span class="ex-chip">Rhythm</span><span class="ex-chip">RPE ≤6</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Strides / Jump Rope exercise illustration" height="640" loading="lazy" src="exercise_images/strides-jump-rope.png" width="640"/></figure><p class="muted">Keep contact light, avoid max effort. Focus on cadence and smooth breathing.</p></div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="mobility-flow">
+<div class="ex-head"><div class="ex-icon">🧘</div><div></div></div><h3>Mobility Flow</h3>
+<div class="ex-cues"><span class="ex-chip">Gentle range</span><span class="ex-chip">Slow breath</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">Sequence</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Mobility Flow exercise illustration" height="640" loading="lazy" src="exercise_images/mobility-flow.png" width="640"/></figure>
+<ol><li>T‑spine extensions: 6–8 slow reps over foam roller.</li><li>Wall slides: wrists &amp; elbows on wall; slide up keeping ribs down.</li></ol>
+</div>
+</details>
+</div>
+</section>
+</div>
+<div class="card" style="margin-top:1rem"><strong>Core Awareness:</strong> McGill Curl‑Up 2×8 + Bird Dog 2×6–8/side  •  <em>2–3 min savasana</em></div>
+</div>
+</div>
+<!-- THURSDAY -->
+<div class="workout-section" id="thursday">
+<div class="workout-header">
+<h3 class="workout-title">Thursday — Upper Balance: Shoulders + Arms</h3>
+<p class="workout-focus">Deltoids • Arms • Symmetry</p>
+</div>
+<div class="workout-content">
+<div class="exercise-grid">
+<section class="exercise-card" data-id="overhead-press">
+<div class="ex-head"><div class="ex-icon">📏</div><div></div></div><h3>Overhead Press</h3>
+<div class="ex-cues"><span class="ex-chip">Ribs down</span><span class="ex-chip">Glutes on</span><span class="ex-chip">No lean</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Overhead Press exercise illustration" height="640" loading="lazy" src="exercise_images/overhead-press.png" width="640"/></figure><ol><li>Grip just wider than shoulders; brace.</li><li>Press slightly forward, head follows through.</li><li>Lower under control to chin/upper‑chest.</li></ol></div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="incline-y-raise-rear-delt-fly">
+<div class="ex-head"><div class="ex-icon">🕊️</div><div></div></div><h3>Incline Y‑Raise / Rear‑Delt Fly</h3>
+<div class="ex-cues"><span class="ex-chip">From shoulders</span><span class="ex-chip">Thumbs up</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Incline Y‑Raise / Rear‑Delt Fly exercise illustration" height="640" loading="lazy" src="exercise_images/incline-y-raise-rear-delt-fly.png" width="640"/></figure><p class="muted">Keep traps relaxed; move from the shoulder joint with slow control.</p></div></details>
+</div>
+</section>
+<section class="exercise-card" data-id="close-grip-bench-dips">
+<div class="ex-head"><div class="ex-icon">📐</div><div></div></div><h3>Close‑Grip Bench / Dips</h3>
+<div class="ex-cues"><span class="ex-chip">Elbows ~30°</span><span class="ex-chip">Full lockout</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Close‑Grip Bench / Dips exercise illustration" height="640" loading="lazy" src="exercise_images/close-grip-bench-dips.png" width="640"/></figure><p class="muted">Keep shoulder blades set; avoid flaring; move with smooth tempo.</p></div></details>
+</div>
+</section>
+<section class="exercise-card" data-id="ez-bar-curl">
+<div class="ex-head"><div class="ex-icon">💪</div><div></div></div><h3>EZ‑Bar Curl</h3>
+<div class="ex-cues"><span class="ex-chip">Full stretch</span><span class="ex-chip">Squeeze</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="EZ‑Bar Curl exercise illustration" height="640" loading="lazy" src="exercise_images/ez-bar-curl.png" width="640"/></figure><p class="muted">Keep elbows near sides; avoid swinging; control the lowering.</p></div></details>
+</div>
+</section>
+<section class="exercise-card" data-id="rope-pushdown-hammer-curl">
+<div class="ex-head"><div class="ex-icon">🧵</div><div></div></div><h3>Rope Pushdown / Hammer Curl</h3>
+<div class="ex-cues"><span class="ex-chip">Shoulders quiet</span><span class="ex-chip">Wrists neutral</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Rope Pushdown / Hammer Curl exercise illustration" height="640" loading="lazy" src="exercise_images/rope-pushdown-hammer-curl.png" width="640"/></figure><p class="muted">Pushdowns: split the rope at bottom. Hammer curl: thumbs up; slow negative.</p></div></details>
+</div>
+</section>
+</div>
+<div class="card" style="margin-top:1rem"><strong>Core Stability:</strong> Side Plank 2×20–30s/side  •  <em>Lateral Raise 1×20–25 constant tension</em></div>
+</div>
+</div>
+<!-- FRIDAY -->
+<div class="workout-section" id="friday">
+<div class="workout-header">
+<h3 class="workout-title">Friday — Fluid Legs: Hinge Patterns</h3>
+<p class="workout-focus">Hamstrings • Glutes • Posterior Chain</p>
+</div>
+<div class="workout-content">
+<div class="exercise-grid">
+<section class="exercise-card" data-id="romanian-deadlift">
+<div class="ex-head"><div class="ex-icon">🔗</div><div></div></div><h3>Romanian Deadlift</h3>
+<div class="ex-cues"><span class="ex-chip">Hinge hips</span><span class="ex-chip">Soft knees</span><span class="ex-chip">Neutral spine</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to &amp; Tips</summary>
+<div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Romanian Deadlift exercise illustration" height="640" loading="lazy" src="exercise_images/romanian-deadlift.png" width="640"/></figure><ol><li>Grip just outside legs; pull slack out of bar.</li><li>Push hips back; bar glides along thighs.</li><li>Stop when hamstrings stretch without back rounding; stand tall by driving hips forward.</li></ol></div>
+</details>
+</div>
+</section>
+<section class="exercise-card" data-id="hip-thrust">
+<div class="ex-head"><div class="ex-icon">⛰️</div><div></div></div><h3>Hip Thrust</h3>
+<div class="ex-cues"><span class="ex-chip">Chin tucked</span><span class="ex-chip">Ribs down</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Hip Thrust exercise illustration" height="640" loading="lazy" src="exercise_images/hip-thrust.png" width="640"/></figure><ol><li>Upper back on bench; feet hip‑width.</li><li>Drive through heels; pause at full hip extension.</li><li>Lower under control without losing pelvic position.</li></ol></div></details>
+</div>
+</section>
+<section class="exercise-card" data-id="walking-lunge">
+<div class="ex-head"><div class="ex-icon">🚶‍♀️</div><div></div></div><h3>Walking Lunge</h3>
+<div class="ex-cues"><span class="ex-chip">Long stride</span><span class="ex-chip">Hip balance</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Walking Lunge exercise illustration" height="640" loading="lazy" src="exercise_images/walking-lunge.png" width="640"/></figure><p class="muted">Step forward, drop straight down, push from front foot to move ahead. Keep torso upright.</p></div></details>
+</div>
+</section>
+<section class="exercise-card" data-id="hamstring-curl">
+<div class="ex-head"><div class="ex-icon">🌀</div><div></div></div><h3>Hamstring Curl</h3>
+<div class="ex-cues"><span class="ex-chip">Hips down</span><span class="ex-chip">Slow return</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Hamstring Curl exercise illustration" height="640" loading="lazy" src="exercise_images/hamstring-curl.png" width="640"/></figure><p class="muted">Curl fully; pause; control back down keeping hips glued to pad.</p></div></details>
+</div>
+</section>
+<section class="exercise-card" data-id="standing-calf-raise">
+<div class="ex-head"><div class="ex-icon">🦶</div><div></div></div><h3>Standing Calf Raise</h3>
+<div class="ex-cues"><span class="ex-chip">Pause bottom/top</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Standing Calf Raise exercise illustration" height="640" loading="lazy" src="exercise_images/standing-calf-raise.png" width="640"/></figure><p class="muted">Hold rails lightly; keep ankles neutral; move deliberately.</p></div></details>
+</div>
+</section>
+</div>
+<div class="card" style="margin-top:1rem"><strong>Core Integration:</strong> Ab‑Wheel 2×6–8 (or Cable Chop 2×10/side)  •  <em>90/90 Breathing 2 min</em></div>
+</div>
+</div>
+<!-- SATURDAY -->
+<div class="workout-section" id="saturday">
+<div class="workout-header">
+<h3 class="workout-title">Saturday — Back Care: Multiple Angles</h3>
+<p class="workout-focus">Lat Variations • Mid‑back • Rear Delts • Arms</p>
+</div>
+<div class="workout-content">
+<div class="exercise-grid">
+<section class="exercise-card" data-id="neutral-grip-pulldown">
+<div class="ex-head"><div class="ex-icon">⬇️</div><div></div></div><h3>Neutral‑Grip Pulldown</h3>
+<div class="ex-cues"><span class="ex-chip">Shoulders down</span><span class="ex-chip">Elbows in</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to &amp; Tips</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Neutral‑Grip Pulldown exercise illustration" height="640" loading="lazy" src="exercise_images/neutral-grip-pulldown.png" width="640"/></figure><ol><li>Lean back 5–10°; brace.</li><li>Pull handle to upper chest; pause.</li><li>Slowly return to full stretch without shrugging.</li></ol></div></details>
+</div>
+</section>
+<section class="exercise-card" data-id="single-arm-cable-row">
+<div class="ex-head"><div class="ex-icon">↔️</div><div></div></div><h3>Single‑Arm Cable Row</h3>
+<div class="ex-cues"><span class="ex-chip">Elbow to hip</span><span class="ex-chip">Chest tall</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Single‑Arm Cable Row exercise illustration" height="640" loading="lazy" src="exercise_images/single-arm-cable-row.png" width="640"/></figure><p class="muted">Row slightly across body; pause at ribs; slow reach to stretch lat.</p></div></details>
+</div>
+</section>
+<section class="exercise-card" data-id="face-pulls">
+<div class="ex-head"><div class="ex-icon">🎯</div><div></div></div><h3>Face Pulls</h3>
+<div class="ex-cues"><span class="ex-chip">Thumbs back</span><span class="ex-chip">Scap set</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="Face Pulls exercise illustration" height="640" loading="lazy" src="exercise_images/face-pulls.png" width="640"/></figure><p class="muted">Pull to eye level; externally rotate; keep neck neutral.</p></div></details>
+</div>
+</section>
+<section class="exercise-card" data-id="db-curls">
+<div class="ex-head"><div class="ex-icon">💪</div><div></div></div><h3>DB Curls</h3>
+<div class="ex-cues"><span class="ex-chip">Supinate</span><span class="ex-chip">Control</span></div>
+<div class="ex-actions">
+<details class="ex-details"><summary class="ex-btn">How to</summary><div class="ex-body"><figure class="exercise-media" style="margin-bottom:1rem;"><img alt="DB Curls exercise illustration" height="640" loading="lazy" src="exercise_images/db-curls.png" width="640"/></figure><p class="muted">Rotate palms up as you curl; avoid swinging; control the negative.</p></div></details>
+</div>
+</section>
+</div>
+<div class="card" style="margin-top:1rem"><strong>Functional Core:</strong> Suitcase Carry 2×20–30m/side + Split‑Stance Pallof 2×8–10/side  •  <em>5 min mindful walk</em></div>
+</div>
+</div>
+<div class="workout-section">
+<div class="workout-header"><h3 class="workout-title">Sunday — Restorative Rest</h3></div>
+<div class="workout-content" style="text-align:center">
+<p style="color:var(--ink-500);font-style:italic">15–30 min contemplative walk • gentle chest/hip openers • optional self‑massage</p>
+</div>
+</div>
+</div>
+</section>
+<section id="progress">
+<div class="container">
+<h2 class="section-title">Mindful Progress</h2>
+<p class="section-sub">Growth through patience and presence</p>
+<div class="days-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+<div class="card"><h3 style="margin-bottom:.5rem">Gentle Progression</h3><p>When you complete all reps with RIR ≥1 and good form, add +2.5 kg (upper) or +5 kg (lower) next time.</p></div>
+<div class="card"><h3 style="margin-bottom:.5rem">Wave Loading Wisdom</h3><p>Squat cycles: A) 4×6 @ ~75% → B) 5×5 @ ~77.5% → C) 6×4 @ ~80% → repeat with +1–2% if movement feels crisp.</p></div>
+<div class="card"><h3 style="margin-bottom:.5rem">Restorative Deloads</h3><p>Every 6–8 weeks, practice with −40–50% sets and −10–15% load for one week. Listen to your body's wisdom.</p></div>
+<div class="card"><h3 style="margin-bottom:.5rem">Missed Sessions</h3><p>Don't rush to catch up. Continue with the next planned session. Consistency beats perfection.</p></div>
+<div class="card"><h3 style="margin-bottom:.5rem">Daily Movement</h3><p>2–3 mindful walks (3–5 min) during your day for posture, clarity, and metabolic health.</p></div>
+<div class="card"><h3 style="margin-bottom:.5rem">Mind‑Body Connection</h3><p>Movement quality over quantity. Each rep is an opportunity for presence.</p></div>
+</div>
+</div>
+</section>
+<section id="nutrition">
+<div class="container">
+<h2 class="section-title">Nourishment &amp; Vitality</h2>
+<p class="section-sub">Fuel your practice with intention</p>
+<div class="days-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+<div class="card"><h3 style="margin-bottom:.5rem">Daily Movement</h3><p>Most days: 20–25 min mindful walking at RPE 5–6. Add to Wednesday's flow.</p></div>
+<div class="card"><h3 style="margin-bottom:.5rem">Balanced Plates</h3><p>Protein (eggs, yogurt, fish, legumes) + vegetables + carbs (rice, oats, potato) + fats (nuts, seeds, olive oil).</p></div>
+<div class="card"><h3 style="margin-bottom:.5rem">Pre‑Session Fuel</h3><p>60–90 min before: Protein + easy carb (yogurt + banana, toast + eggs).</p></div>
+<div class="card"><h3 style="margin-bottom:.5rem">Post‑Session Recovery</h3><p>Within 60 min: Protein‑focused meal; extra carbs after legs or long sessions.</p></div>
+<div class="card"><h3 style="margin-bottom:.5rem">Gentle Supplements</h3><p>Creatine monohydrate (optional): 3–5g daily supports strength &amp; recovery.</p></div>
+<div class="card"><h3 style="margin-bottom:.5rem">Hydration</h3><p>3–4L daily. Pre‑session: 300–500ml + tiny pinch of sea salt.</p></div>
+</div>
+</div>
+</section>
+<section id="glossary">
+<div class="container">
+<h2 class="section-title">Mindful Movement Glossary</h2>
+<p class="section-sub">Understanding the language of conscious training</p>
+<div class="days-grid" style="grid-template-columns:repeat(auto-fit,minmax(340px,1fr))">
+<div class="card"><strong>RIR:</strong> Reps in reserve—how many clean reps left at the end of a set. Stay at 1–2 for quality.</div>
+<div class="card"><strong>RPE:</strong> Effort scale (1–10). Cardio at 5–6 should feel conversational.</div>
+<div class="card"><strong>Flowing Sets:</strong> 12–20 reps with steady rhythm—more circulation, less strain.</div>
+<div class="card"><strong>Movement Quality Drop:</strong> When form degrades or speed slows sharply—end the set.</div>
+<div class="card"><strong>Core Integration:</strong> Anti‑extension, anti‑rotation, anti‑lateral flexion patterns.</div>
+<div class="card"><strong>90/90 Breathing:</strong> Feet on wall; long exhales to reset the nervous system.</div>
+</div>
+<div class="card" style="margin-top:var(--space-10)">
+<h3 style="font-family:'Playfair Display',serif;margin-bottom:.75rem">Safety &amp; Awareness</h3>
+<p><strong>Stop immediately</strong> for chest pain, severe dizziness, or concerning neurological symptoms. Seek professional care.</p>
+<p style="margin-top:.5rem"><strong>Choose gentleness</strong> on depleted days. Movement should nourish, not deplete.</p>
+</div>
+</div>
+</section>
+<script>
+    // Theme
+    const body = document.body;
+    const themeButton = document.getElementById('themeToggle');
+    const iconSun = document.getElementById('iconSun');
+    const iconMoon = document.getElementById('iconMoon');
+    const themeLabel = document.getElementById('themeLabel');
+    const savedTheme = localStorage.getItem('mm_theme');
+    if(savedTheme === 'dark'){ body.classList.add('theme-dark'); iconSun.style.display='none'; iconMoon.style.display='inline'; themeLabel.textContent='Dark'; }
+    themeButton?.addEventListener('click', () => {
+      const dark = body.classList.toggle('theme-dark');
+      iconSun.style.display = dark ? 'none' : 'inline';
+      iconMoon.style.display = dark ? 'inline' : 'none';
+      themeLabel.textContent = dark ? 'Dark' : 'Light';
+      localStorage.setItem('mm_theme', dark ? 'dark' : 'light');
+    });
+
+    // Background
+    const bgBtn = document.getElementById('bgBtn');
+    const bgPanel = document.getElementById('bgPanel');
+    const imageRow = document.getElementById('imageRow');
+    const bgFile = document.getElementById('bgFile');
+    bgBtn?.addEventListener('click', () => bgPanel.classList.toggle('open'));
+    document.addEventListener('click', (e) => { if(!bgPanel.contains(e.target) && e.target !== bgBtn) bgPanel.classList.remove('open'); });
+    bgPanel?.addEventListener('change', (e) => {
+      if(e.target.name === 'bgmode'){
+        const val = e.target.value;
+        body.classList.remove('bg-liquid','bg-image');
+        if(val === 'ivory'){
+          imageRow.style.display='none'; body.style.removeProperty('--custom-bg-url');
+        } else if(val === 'liquid'){
+          imageRow.style.display='none'; body.classList.add('bg-liquid'); body.style.removeProperty('--custom-bg-url');
+        } else if(val === 'image'){
+          imageRow.style.display='flex';
+        }
+      }
+    });
+    bgFile?.addEventListener('change', (e) => {
+      const file = e.target.files?.[0]; if(!file) return;
+      const url = URL.createObjectURL(file);
+      body.style.setProperty('--custom-bg-url', `url('${url}')`);
+      body.classList.add('bg-image');
+    });
+  </script>
+</body>
+</html>
